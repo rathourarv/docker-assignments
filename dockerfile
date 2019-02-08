@@ -2,12 +2,13 @@ FROM node:alpine
 
 WORKDIR /src/app
 
-COPY package*.json .
+COPY package*.json ./
 
-RUN npm install
+RUN npm install \
+  && npm install nodemon -g
 
 COPY . .
 
 EXPOSE 3000/tcp
 
-ENTRYPOINT ["node", "app.js"]
+ENTRYPOINT ["nodemon", "app.js"]

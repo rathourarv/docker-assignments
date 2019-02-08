@@ -1,0 +1,15 @@
+version: "3.1"
+
+services:
+  javaserver:
+    build: ./todo
+    container_name: todoapp
+  mainserver:
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/src/app/
+    environment: 
+      - server=http://todoapp:8080
+    command: ["nodemon", "app.js"]
