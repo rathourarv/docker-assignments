@@ -2,10 +2,11 @@ package hello;
 
 import java.io.*;
 
-public class TodoReader {
+public class TodosHandler {
 
     private String filePath;
-    TodoReader() {
+
+    TodosHandler() {
         filePath = "./data.json";
     }
 

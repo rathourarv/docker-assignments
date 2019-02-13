@@ -14,30 +14,30 @@ import java.io.*;
 @RestController
 public class TodoController {
 
-    private final TodoReader todoReader;
+    private final TodosHandler todosHandler;
 
     TodoController() {
-        todoReader = new TodoReader();
+        todosHandler = new TodosHandler();
     }
 
     @RequestMapping("/")
     public String index() {
-        return "Hello my !";
+        return "Hello world";
     }
 
     @RequestMapping("/todos")
     public String todos() {
-        return todoReader.readTodos();
+        return todosHandler.readTodos();
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.PUT)
     public void addTodo(@RequestBody String todo) throws ParseException, IOException {
-        String todos = todoReader.readTodos();
+        String todos = todosHandler.readTodos();
         JSONParser parser = new JSONParser();
         JSONObject json = (JSONObject) parser.parse(todos);
         JSONArray arr = (JSONArray) json.get("todos");
         JSONObject newTodo = (JSONObject) parser.parse(todo);
         arr.add(newTodo);
-        todoReader.writeTodos(json.toJSONString());
+        todosHandler.writeTodos(json.toJSONString());
     }
 }
