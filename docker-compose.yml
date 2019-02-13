@@ -4,12 +4,14 @@ services:
   javaserver:
     build: ./todo
     container_name: todoapp
+    volumes:
+      - ./todo/data.json:/src/app/data.json
   mainserver:
     build: .
     ports:
       - 3000:3000
     volumes:
-      - .:/src/app/
+      - ./app.js:/src/app/app.js
     environment: 
       - server=http://todoapp:8080
     command: ["nodemon", "app.js"]

@@ -1,7 +1,9 @@
-FROM gradle:jre-alpine
+FROM gradle:5.2.0-jdk11
+
+USER root
 
 WORKDIR /src/app/
 
-COPY build/libs/todo-0.0.1-SNAPSHOT.jar todo.jar
+COPY . ./
 
-CMD ["java","-jar","./todo.jar"]
+CMD ["gradle","-t","build", "bootrun"]
