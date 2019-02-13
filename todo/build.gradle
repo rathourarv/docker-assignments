@@ -22,6 +22,10 @@ tasks.withType(JavaCompile) {
     options.incremental = true // one flag, and things will get MUCH faster
 }
 
+repositories {
+	mavenCentral()
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
