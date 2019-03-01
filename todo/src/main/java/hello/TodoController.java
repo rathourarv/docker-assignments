@@ -1,24 +1,17 @@
 package hello;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.*;
-
 @RestController
 public class TodoController {
 
-    private final TodosHandler todosHandler;
-
-    TodoController() {
-        todosHandler = new TodosHandler();
-    }
+    @Autowired
+    TodoRepository todoRepository;
 
     @RequestMapping("/")
     public String index() {
@@ -27,17 +20,12 @@ public class TodoController {
 
     @RequestMapping("/todos")
     public String todos() {
-        return todosHandler.readTodos();
+        return todoRepository.findAll().toString();
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.PUT)
-    public void addTodo(@RequestBody String todo) throws ParseException, IOException {
-        String todos = todosHandler.readTodos();
-        JSONParser parser = new JSONParser();
-        JSONObject json = (JSONObject) parser.parse(todos);
-        JSONArray arr = (JSONArray) json.get("todos");
-        JSONObject newTodo = (JSONObject) parser.parse(todo);
-        arr.add(newTodo);
-        todosHandler.writeTodos(json.toJSONString());
+    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void create(@RequestBody Todo todo) {
+        System.out.println(todo+"------------");
+        todoRepository.save(todo);
     }
 }
